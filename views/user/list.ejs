@@ -1,0 +1,88 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include ../layouts/header.ejs %>
+
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>	
+
+
+
+<div class="container">
+
+	<div class="row">
+		<div style="margin-left: 50%; margin-top: 5%;">
+			<h2>Manage <b>Student</b></h2>
+		</div>
+		<div style="margin-left: 82%; margin-top: 3%;">
+			<button><a href="">Add Student</a></button>
+		</div>
+	</div>
+</div>
+
+
+<div class="card-body">
+	<div style="margin-left: 20%; margin-top: 1%;">
+
+	  <!-- (A) SEARCH FORM -->
+	  <form method="post" action="">
+			<input type="text" name="search" required />
+			<input type="submit" value="Search" />
+		</form>
+		<br>
+	</div>
+</div>
+
+
+
+<table width='80%' align="right" border=2 >
+
+	<tr style='text-align:center; background-color:#CCC'>
+		<th>Student_ID</th>
+		<th>Name</th>
+		<th>Batch</th>
+		<th>Semester</th>
+		<th>GPA</th>
+		<th>Action</th>
+	</tr>
+	
+	<!--
+		Using FOREACH LOOP for the users array
+		
+		myArray.forEach(function(el, index) {
+			// el - current element, i - index
+		});
+	-->
+	<% if (data) { %>
+	<% data.forEach(function(user){ %>
+		<tr>
+			<td><%= user.Student_ID %></td>
+			<td><%= user.name %></td>
+			<td><%= user.batch %></td>
+			<td><%= user.semester %></td>
+			<td><%= user.gpa %></td>
+			<td>
+				<div style="float:left">
+					<button> <a href="/users/edit/<%= user.Student_ID %>"><b>Update</b></a>&nbsp; </button>
+					<!-- <a href='/users/edit/<%= user.Student_ID %>'>Edit</a> &nbsp;					 -->
+					<form method="post" action="/users/delete/<%= user.id %>" style="float:right">
+						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+						<input type="hidden" name="_method" value="DELETE" />
+					</form>
+				</div>
+			</td>
+		</tr>
+	<% }) %>
+	<% } %>
+
+</table>
+
+<!--
+including footer content which is common for all pages
+-->
+<%- include ../layouts/footer.ejs %>
