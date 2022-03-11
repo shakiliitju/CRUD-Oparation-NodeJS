@@ -11,23 +11,31 @@ including header content which is common for all pages
 	<p style="color:green"><%- messages.success %></p>
 <% } %>
 
-<form action="/users/edit/<%= id %>" method="post" name="form1">
-	<table width="25%" border="0">
+<form action="/users/edit/<%= Student_ID %>" method="post" name="form1">
+	<table width="25%" align="center" border="0">
+		<tr> 
+			<td>Student_ID</td>
+			<td><input type="text" name="Student_ID" id="name" value="<%= Student_ID %>" /></td>
+		</tr>
 		<tr> 
 			<td>Name</td>
 			<td><input type="text" name="name" id="name" value="<%= name %>" /></td>
 		</tr>
 		<tr> 
-			<td>Age</td>
-			<td><input type="text" name="age" value="<%= age %>" /></td>
+			<td>Batch</td>
+			<td><input type="text" name="batch" value="<%= batch %>" /></td>
 		</tr>
 		<tr> 
-			<td>Email</td>
-			<td><input type="text" name="email" value="<%= email %>" /></td>
+			<td>Semester</td>
+			<td><input type="text" name="semester" value="<%= semester %>" /></td>
+		</tr>
+		<tr> 
+			<td>GPA</td>
+			<td><input type="text" name="gpa" value="<%= gpa %>" /></td>
 		</tr>
 		<tr> 
 			<td></td>
-			<td><input type="submit" name="Submit" value="Edit" /></td>
+			<td><input type="submit" name="Submit" value="Update" /></td>
 		</tr>
 	</table>
 	<input type="hidden" name="_method" value="PUT" />

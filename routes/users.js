@@ -119,36 +119,40 @@ app.post('/add', function (req, res, next) {
 })
 
 // SHOW EDIT USER FORM
-app.get('/edit/(:id)', function (req, res, next) {
+app.get('/edit/(:Student_ID)', function (req, res, next) {
 	req.getConnection(function (error, conn) {
-		conn.query('SELECT * FROM users WHERE id = ?', [req.params.id], function (err, rows, fields) {
+		conn.query('SELECT * FROM users WHERE Student_ID = ?', [req.params.Student_ID], function (err, rows, fields) {
 			if (err) throw err
 
 			// if user not found
 			if (rows.length <= 0) {
-				req.flash('error', 'User not found with id = ' + req.params.id)
+				req.flash('error', 'User not found with Student_ID = ' + req.params.Student_ID)
 				res.redirect('/users')
 			}
 			else { // if user found
 				// render to views/user/edit.ejs template file
 				res.render('user/edit', {
-					title: 'Edit User',
+					title: 'Edit Student',
 					//data: rows[0],
-					id: rows[0].id,
+					Student_ID: rows[0].Student_ID,
 					name: rows[0].name,
-					age: rows[0].age,
-					email: rows[0].email
+					batch: rows[0].batch,
+					semester: rows[0].semester,
+					gpa: rows[0].gpa
 				})
 			}
 		})
 	})
 })
 
+
 // EDIT USER POST ACTION
-app.put('/edit/(:id)', function (req, res, next) {
+app.put('/edit/(:Student_ID)', function (req, res, next) {
+	req.assert('Student_ID', 'Student_ID is required').notEmpty()
 	req.assert('name', 'Name is required').notEmpty()           //Validate name
-	req.assert('age', 'Age is required').notEmpty()             //Validate age
-	req.assert('email', 'A valid email is required').isEmail()  //Validate email
+	req.assert('batch', 'Batch is required').notEmpty()             //Validate age
+	req.assert('semester', 'Semester is required').notEmpty()  //Validate email
+	req.assert('gpa', 'GPA is required').notEmpty()
 
 	var errors = req.validationErrors()
 
@@ -164,35 +168,39 @@ app.put('/edit/(:id)', function (req, res, next) {
 		req.sanitize('username').trim(); // returns 'a user'
 		********************************************/
 		var user = {
+			Student_ID: req.sanitize('Student_ID').escape().trim(),
 			name: req.sanitize('name').escape().trim(),
-			age: req.sanitize('age').escape().trim(),
-			email: req.sanitize('email').escape().trim()
+			batch: req.sanitize('batch').escape().trim(),
+			semester: req.sanitize('semester').escape().trim(),
+			gpa: req.sanitize('gpa').escape().trim()
 		}
 
 		req.getConnection(function (error, conn) {
-			conn.query('UPDATE users SET ? WHERE id = ' + req.params.id, user, function (err, result) {
+			conn.query('UPDATE users SET ? WHERE Student_ID = ' + req.params.Student_ID, user, function (err, result) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
 
 					// render to views/user/add.ejs
 					res.render('user/edit', {
-						title: 'Edit User',
-						id: req.params.id,
+						title: 'Edit Student',
+						Student_ID: req.params.Student_ID,
 						name: req.body.name,
-						age: req.body.age,
-						email: req.body.email
+						batch: req.body.batch,
+						semester: req.body.semester,
+						gpa: req.body.gpa
 					})
 				} else {
 					req.flash('success', 'Data updated successfully!')
 
 					// render to views/user/add.ejs
 					res.render('user/edit', {
-						title: 'Edit User',
-						id: req.params.id,
+						title: 'Edit Student',
+						Student_ID: req.params.Student_ID,
 						name: req.body.name,
-						age: req.body.age,
-						email: req.body.email
+						batch: req.body.batch,
+						semester: req.body.semester,
+						gpa: req.body.gpa
 					})
 				}
 			})
@@ -210,11 +218,12 @@ app.put('/edit/(:id)', function (req, res, next) {
 		 * because req.param('name') is deprecated
 		 */
 		res.render('user/edit', {
-			title: 'Edit User',
-			id: req.params.id,
+			title: 'Edit Student',
+			Student_ID: req.params.Student_ID,
 			name: req.body.name,
-			age: req.body.age,
-			email: req.body.email
+			batch: req.body.batch,
+			semester: req.body.semester,
+			gpa: req.body.gpa
 		})
 	}
 })
