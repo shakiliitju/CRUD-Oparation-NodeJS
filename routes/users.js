@@ -219,19 +219,21 @@ app.put('/edit/(:id)', function (req, res, next) {
 	}
 })
 
+
+
 // DELETE USER
-app.delete('/delete/(:id)', function (req, res, next) {
-	var user = { id: req.params.id }
+app.delete('/delete/(:Student_ID)', function (req, res, next) {
+	var user = { Student_ID: req.params.Student_ID }
 
 	req.getConnection(function (error, conn) {
-		conn.query('DELETE FROM users WHERE id = ' + req.params.id, user, function (err, result) {
+		conn.query('DELETE FROM users WHERE Student_ID = ' + req.params.Student_ID, user, function (err, result) {
 			//if(err) throw err
 			if (err) {
 				req.flash('error', err)
 				// redirect to users list page
 				res.redirect('/users')
 			} else {
-				req.flash('success', 'User deleted successfully! id = ' + req.params.id)
+				req.flash('success', 'User deleted successfully! Student_ID = ' + req.params.Student_ID)
 				// redirect to users list page
 				res.redirect('/users')
 			}
