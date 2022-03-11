@@ -70,7 +70,7 @@ including header content which is common for all pages
 				<div style="float:left">
 					<button> <a href="/users/edit/<%= user.Student_ID %>"><b>Update</b></a>&nbsp; </button>
 					<!-- <a href='/users/edit/<%= user.Student_ID %>'>Edit</a> &nbsp;					 -->
-					<form method="post" action="/users/delete/<%= user.id %>" style="float:right">
+					<form method="post" action="/users/delete/<%= user.Student_ID %>" style="float:right">
 						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
 						<input type="hidden" name="_method" value="DELETE" />
 					</form>
